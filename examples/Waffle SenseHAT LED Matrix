@@ -1,11 +1,12 @@
 # An example to inspire the use of GuiZero to control a SenseHAT LED matrix.
 # It also allows you to design an image, with colour sliders for RGB
+# Refer to RaspberryPi forums Teaching and learning resources : https://www.raspberrypi.org/forums/viewtopic.php?f=49&t=202386 for some talk using it.
 
 
 from guizero import App, Waffle, PushButton, Slider
 
 from sense_hat import SenseHat
-#from sense_emu import SenseHat   #use this if you don't have a SenseHAT but are using Raspbian/x86 Desktop
+#from sense_emu import SenseHat   #use this instead of sense_hat if you don't have a SenseHAT, but are using Raspbian/x86 Desktop
 
   #convert SenseHAT RGB to HEX for GuiZero
 def RGBtoHEX():
