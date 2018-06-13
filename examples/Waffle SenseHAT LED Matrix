@@ -1,0 +1,47 @@
+# An example to inspire the use of GuiZero to control a SenseHAT LED matrix.
+# It also allows you to design an image, with colour sliders for RGB
+
+
+from guizero import App, Waffle, PushButton, Slider
+
+from sense_hat import SenseHat
+#from sense_emu import SenseHat   #use this if you don't have a SenseHAT but are using Raspbian/x86 Desktop
+
+  #convert SenseHAT RGB to HEX for GuiZero
+def RGBtoHEX():
+    return "#%02x%02x%02x" % (Red_slider.value, Green_slider.value, Blue_slider.value)
+
+def change_pixel(x,y):    
+    if big_waffle.get_pixel(x,y) == "white":
+        big_waffle.set_pixel(x, y, RGBtoHEX())
+        sense.set_pixel(x,y, [Red_slider.value, Green_slider.value, Blue_slider.value])
+    else:
+        big_waffle.set_pixel(x, y, "white")
+        sense.set_pixel(x,y, [255,255,255])
+
+def reset_display():
+    sense.clear(255,255,255)
+    big_waffle.set_all("white")
+
+def close_app():
+    sense.clear()
+    app.destroy()
+
+#--Start of code, setup SenseHAT, set to all white display
+sense=SenseHat()
+sense.clear(255,255,255)
+
+#---
+app = App("SenseHat Waffle", height=20*20, width=20*20)
+
+big_waffle = Waffle(app, height=8, width=8, dim=20, pad=2, dotty=True, color="white", command=change_pixel)
+reset_button = PushButton(app, reset_display, text="Reset display")
+
+Red_slider = Slider(app, end=255)
+Green_slider = Slider(app, end=255)
+Blue_slider = Slider(app, end=255)
+#---
+
+app.on_close(close_app)    #Close app and clear SenseHat display to blank. 
+
+app.display()
